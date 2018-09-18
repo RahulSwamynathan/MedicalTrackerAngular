@@ -1,0 +1,41 @@
+<form #submitControl="ngForm" (ngSubmit)="submitAction(submitControl, loginDetails)">
+    <div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modelclass">
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" [class.has-error]="email.invalid && email.touched">
+                            <label class="control-label col-md-4" style="padding-top:0px"><span>*</span> Email</label>
+                            <div class="col-md-6">
+                                <input required appEmailvalidator type="email" name="email" class="form-control" [(ngModel)]="loginDetails.email"
+                                    #email="ngModel" />
+                                <span class="help-block" *ngIf="email?.errors?.required && email.touched">Email is mandatory</span>
+                                <!-- <span class="help-block" *ngIf="email.errors?.email && email.touched">Please enter a valid email</span> -->
+                                <span class="help-block" *ngIf="email.touched && email?.errors?.invalidEmail && !email.errors?.required">Please enter a valid email</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" [class.has-error]="password.invalid && password.touched">
+                            <label class="control-label col-md-4"style="padding-top:0px"><span>*</span> Password</label>
+                            <div class="col-md-6">
+                                <input required type="password" class="form-control" name="password" [(ngModel)]="loginDetails.password" #password="ngModel"/>
+                                <span class="help-block" *ngIf="password.invalid && password.touched">Password is mandatory</span>
+                            </div>
+                        </div>
+                        <span style="color:red; padding-left:30%; text-align:center">{{valid}}</span>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <input type="submit" value="Log in" class="btn btn-default hovrBtn" />
+                    <input type="button" value="Cancel" class="btn btn-default hovrBtn" (click)="cancelAction(submitControl)" />
+                    <span>
+                        <a routerLink="reset">Reset Password</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

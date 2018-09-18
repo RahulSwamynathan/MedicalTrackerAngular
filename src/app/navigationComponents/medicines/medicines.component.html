@@ -1,0 +1,42 @@
+<h4>
+  <b>Medicine list</b>
+</h4>
+<hr />
+<div style="width:825px">
+  <div>
+    <label class="control-label">Show request</label>
+    <select class="form-control pagination" [(ngModel)]="pageSize">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
+    <span>
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search for request" />
+    </span>
+  </div>
+  <br />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Medicine Name</th>
+        <th>Price</th>
+        <th>Expiry Date</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let med of medicineList | searchFilter:search | limitRange:pageSize">
+        <td>{{med.MedicineName}}</td>
+        <td>{{med.Price}}</td>
+        <td>{{med.ExpiryDate | date}}</td>
+        <td>{{med.Quantity}}</td>
+      </tr>
+      <tr *ngIf="!medicineList">
+        <td colspan="4" style="text-align:center">Loading Patient Details</td>
+      </tr>
+      <tr *ngIf="medicineList == null || medicineList.length == 0">
+        <td colspan="4" style="text-align:center">No records to display..!!</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

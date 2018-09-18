@@ -1,0 +1,98 @@
+<h4>
+  <b>
+    <i>{{requestType !==null && requestType != 'allRequest' ? (requestType + ' list') : 'All Request'}}</i>
+  </b>
+</h4>
+<alert type="danger" [dismissible]="dismissible" *ngIf="showAlert">
+    <strong>Deleted:</strong> You have deleted the request.
+      Click <strong><a class="button undoAlert" (click)='undoPatientRequest(getPatientId)'>Undo</a></strong> to revert the delete action.
+</alert>
+<hr />
+<div>
+  <ng-container *ngIf="requestType != 'allRequest' && role != 'pharmacist'">
+    <label class="control-label">Type of Request</label> &nbsp;
+    <select class="form-control pagination" name="state" (change)="requestChange()" [(ngModel)]="status">
+      <ng-container *ngFor="let opt of patientStatusOptions">
+          <ng-container *ngIf="role == 'patient'">
+              <option *ngIf="opt.value != 'Rejected'" [value]="opt.value">{{opt.text}}</option>
+          </ng-container>
+          <ng-container *ngIf="role == 'doctor'">
+              <option *ngIf="opt.value != 'Rejected' && opt.value != 'Approved by Doctor'" [value]="opt.value">{{opt.text}}</option>
+          </ng-container>
+      </ng-container>
+      </select>
+    </ng-container>
+  <label class="control-label">Show request</label> &nbsp; 
+  <select class="form-control pagination" [(ngModel)]="pageSize" (change)="getingNoOfPages()">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+  </select>
+  <span>
+    <input type="text" class="form-control" [(ngModel)]="search" (keyup)="serachFunctionality(search)" placeholder="Search for request" />
+  </span>
+</div>
+<br />
+<table class="table table-bordered set-width">
+  <thead>
+    <tr>
+      <th (click)="sortingPatientDetails('PatientName')">Name <div [class]="colName === 'PatientName' ? sortType ? 'arrow-up' : 'arrow-down' : '' "></div></th>
+      <th (click)="sortingPatientDetails('PatientAge')">Age <div [class]="colName === 'PatientAge' ? sortType ? 'arrow-up' : 'arrow-down': ''"></div></th>
+      <th (click)="sortingPatientDetails('PatientGender')">Gender <div [class]="colName === 'PatientGender'? sortType ? 'arrow-up' : 'arrow-down': ''"></div></th>
+      <th (click)="sortingPatientDetails('PatientHeight')">Height <div [class]="colName === 'PatientHeight' ? sortType ? 'arrow-up' : 'arrow-down': ''"></div></th>
+      <th (click)="sortingPatientDetails('PatientWeight')">Weight <div [class]="colName === 'PatientWeight' ? sortType ? 'arrow-up' : 'arrow-down': ''"></div></th>
+      <th (click)="sortingPatientDetails('PatientConcern')">Concern <div [class]="colName === 'PatientConcern' ? sortType ? 'arrow-up' : 'arrow-down': ''"></div></th>
+      <th (click)="sortingPatientDetails('Status')">Status <div *ngIf="requestType === 'allRequest'" [class]="colName === 'Status' ? sortType ? 'arrow-up' : 'arrow-down': ''"></div></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let detail of listOfDetails | slice:0:pageSize | orderby:colName:sortType">
+      <td>{{detail.PatientName | changetotitlecase}}</td>
+      <td>{{detail.PatientAge}}</td>
+      <td>{{detail.PatientGender | changetotitlecase}}</td>
+      <td>{{detail.PatientHeight}}</td>
+      <td>{{detail.PatientWeight}}</td>
+      <td>{{detail.PatientConcern}}</td>
+      <td>{{detail.Status}}</td>
+      <td class="actions-default">
+          <a title="Edit Request" routerLink="/requestLayout/request/{{detail.PatientId}}">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        <ng-container *ngIf="role == 'patient' && detail.Status == 'Requested'">
+            <button type="button" class="btn btn-danger btn-circle" title="Delete request" 
+            (click)="deleteRequest(detail.PatientId)">
+                <i class="fa fa-times"></i>
+            </button>
+        </ng-container>
+      </td>
+    </tr>
+    <tr *ngIf="listOfDetails == null || listOfDetails.length == 0 || (listOfDetails | searchFilter:search) == null">
+      <td colspan="8" style="text-align:center">No records to display..!!</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="paginationFoot">
+  <ng-container *ngIf="((((listOfDetails | searchFilter:search) !=null) && 
+                      ((listOfDetails | limitRange:pageSize) != null)) && 
+                      (((listOfDetails | searchFilter:search) != null && 
+                      (listOfDetails | searchFilter:search).length > getPageSize) || 
+                      ((listOfDetails | limitRange:pageSize) != null 
+                      && (listOfDetails | limitRange:pageSize).length <= getPageSize)) && getPageSize < listCount)">
+    <span style="float:left">
+      <!-- Showing entries {{startEntry}} of {{lastEntry}} in {{listCount}} -->
+                   Total entries {{listCount}}
+    </span>
+    <span>
+      <button class="btn btn-default hovrBtn" (click)="pagination(prevCount, 'pre')" [disabled]="prevCount==0">&larr;</button>
+      <!-- <ng-container *ngFor="let data of pageCount; let i = index; let con = count">
+                <button class="btn btn-default hovrBtn"  name="pageNo" *ngIf="i <= 2" (click)="pagination(data)">{{data}}</button>
+            </ng-container> -->
+            <button class="btn btn-default hovrBtn" [class.active]="getPageNo==btnOne" *ngIf="pageCount.length >= btnOne" (click)="pagination(btnOne, 'btn')">{{btnOne}}</button>
+            <button class="btn btn-default hovrBtn" [class.active]="getPageNo==btnTwo" *ngIf="pageCount.length >= btnTwo" (click)="pagination(btnTwo, 'btn')">{{btnTwo}}</button>
+            <button class="btn btn-default hovrBtn" [class.active]="getPageNo==btnThree" *ngIf="pageCount.length >= btnThree" (click)="pagination(btnThree, 'btn')">{{btnThree}}</button>
+      <button class="btn btn-default hovrBtn" (click)="pagination(nextCount, 'nex')" [disabled]="nextCount > pageCount.length">&rarr;</button>
+    </span>
+  </ng-container>
+</div>

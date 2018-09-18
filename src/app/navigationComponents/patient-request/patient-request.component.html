@@ -1,0 +1,209 @@
+<h4>
+  <b>
+    <i>Patient Details</i>
+  </b>
+</h4>
+<hr />
+<form #formControl="ngForm" class="requestForm" (ngSubmit)="submitDetails(formControl, request)">
+  <fieldset>
+    <div class="request-Form">
+      <div class="form-group" [class.has-error]="patientName.invalid && patientName.touched">
+        <label class="control-label" for="patientName">Name</label>
+        <input required 
+               type="text" 
+               class="form-control" 
+               name="patientName" 
+               #patientName="ngModel" 
+               [(ngModel)]="request.PatientName"
+               [disabled]="role !=='patient' || request.Status != 'Requested'"
+               placeholder="Name" 
+               maxlength="25" autocomplete="name">
+        <span class="help-block" *ngIf="patientName.invalid && patientName.touched">Name is required</span>
+      </div>
+
+      <div class="form-group has-feedback" [class.has-error]="patientAge.invalid && patientAge.touched">
+          <label class="control-label" for="patientAge">Age</label>
+          <input required 
+                 type="text" 
+                 class="form-control" 
+                 name="patientAge" 
+                 [pattern]="numberPattern" 
+                 #patientAge="ngModel" 
+                 [(ngModel)]="request.PatientAge"
+                 [disabled]="role !=='patient' || request.Status != 'Requested'"
+                 placeholder="Age" 
+                 maxlength="2" >
+          <span class="help-block" *ngIf="!patientAge.errors?.pattern && patientAge.invalid && patientAge.touched">Age is required</span>
+          <span class="help-block" *ngIf="patientAge?.errors?.pattern && patientAge.touched">Age should be a number</span>
+        </div>
+
+      <div class="form-group" [class.has-error]="patientConcern.invalid && patientConcern.touched">
+        <label class="control-label" for="patientConcern">Concern</label>
+        <textarea class="form-control" 
+                  required 
+                  name="patientConcern" 
+                  rows="5" 
+                  #patientConcern="ngModel" 
+                  [(ngModel)]="request.PatientConcern"
+                  [disabled]="role !=='patient' || request.Status != 'Requested'"
+                  placeholder="Concern" 
+                  maxlength="100" 
+                  (keyup)="getWords($event, request.PatientConcern)"></textarea>
+        <span class="help-block" *ngIf="patientConcern.invalid && patientConcern.touched">Concern is required</span>
+        <div id="search_suggest" *ngIf="autoComp">
+            <ng-container *ngFor="let item of looping">
+                <div *ngIf="item != ''" class="suggest_link" (click)="appendData(item)" (mouseover)="hoverEvent($event, item)" (mouseout)="hoverEvent($event)"><strong> {{item}} </strong></div>
+            </ng-container>
+          </div>
+      </div>
+
+      <div class="form-group" *ngIf="role =='doctor' || role =='pharmacist' || request.MedicineName != ''">
+        <label class="control-label" for="medicineName">Medicine Details</label>
+        <textarea class="form-control" 
+                  name="medicineName" 
+                  rows="3" 
+                  #medicineName="ngModel" 
+                  [(ngModel)]="request.MedicineName" 
+                  [disabled]="role !=='doctor' && request.Status != 'Requested'"
+                  placeholder="Enter Only the Medicine Name" 
+                  maxlength="30"></textarea>
+      </div>
+
+      <div class="form-group" [class.has-error]="delivery.invalid && delivery.touched" *ngIf="role =='pharmacist' || request.Delivery !== ''">
+        <label class="control-label" for="delivery">Delivery Days</label>
+        <input required 
+               type="text" 
+               class="form-control" 
+               name="delivery" 
+               [pattern]="numberPattern" 
+               #delivery="ngModel"
+               [(ngModel)]="request.Delivery" 
+               [disabled]="role !=='pharmacist' && request.Status != 'Approved by Doctor'"
+               (change)="statusTrigger()" 
+               placeholder="Enter only the days" 
+               maxlength="5">
+        <span class="help-block" *ngIf="!delivery.errors?.pattern && delivery.invalid && delivery.touched">Delivery day is required</span>
+        <span class="help-block" *ngIf="delivery?.errors?.pattern && delivery.touched">Delivery day should be a number</span>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-12" *ngIf="formControl.enabled">
+          <input type="button" 
+                *ngIf="role =='doctor'" [value]="medicineTable ? 'Hide Medicines' : 'Show Medicines'" 
+                class="btn btn-primary"
+                (click)="getMedicine()" />
+          <input type="submit" class="btn btn-primary" [value]="role == 'patient' ? 'Submit' : 'Save'">
+          <input type="button" class="btn btn-primary" (click)="cancelForm(formControl)" [value]="role == 'patient' ? 'Cancel' : 'Clear'">
+        </div>
+        <br />
+        <br />
+        <br />
+      </div>
+    </div>
+
+    <div class="request-Form2">
+        <div class="form-group" [class.has-error]="patientGender.invalid && patientGender.touched">
+            <label class="control-label" for="patientGender">Gender</label>
+            <select class="form-control" 
+                    name="patientGender" 
+                    #patientGender="ngModel" 
+                    [(ngModel)]="request.PatientGender" 
+                    [disabled]="role !=='patient' || request.Status != 'Requested'"
+                    required >
+              <option [ngValue]="null">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <span class="help-block" *ngIf="patientGender.invalid && patientGender.touched">Gender is required</span>
+          </div>
+
+          <div class="form-group" [class.has-error]="patientHeight.invalid && patientHeight.touched">
+              <label class="control-label" for="patientHeight">Height</label>
+              <input type="text" 
+                     class="form-control" 
+                     name="patientHeight" 
+                     pattern="((\d+)(\.\d{1}))$" 
+                     #patientHeight="ngModel" 
+                     [(ngModel)]="request.PatientHeight"
+                     [disabled]="role !=='patient' || request.Status != 'Requested'"
+                     placeholder="Height" 
+                     maxlength="4">
+              <span class="help-block" *ngIf="patientHeight?.errors?.pattern && patientHeight.touched">Height should be a number with one decimal</span>
+            </div>
+
+      <div class="form-group" [class.has-error]="patientWeight.invalid && patientWeight.touched">
+        <label class="control-label" for="patientWeight">Weight</label>
+        <input type="text" 
+               class="form-control" 
+               name="patientWeight" 
+               [pattern]="numberPattern" 
+               #patientWeight="ngModel" 
+               [(ngModel)]="request.PatientWeight"
+               [disabled]="role !=='patient' || request.Status != 'Requested'"
+               placeholder="Weight" 
+               maxlength="4">
+        <span class="help-block" *ngIf="patientWeight?.errors?.pattern && patientWeight.touched">Weight should be a number</span>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="state">State</label>
+        <select class="form-control" name="state" #state="ngModel" [(ngModel)]="request.Status" disabled>
+          <option *ngFor="let opt of patientStatusOptions" [value]="opt.value">{{opt.text}}</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="role =='doctor' || role =='pharmacist' || request.MedicineName != ''" [class.has-error]="comments?.errors?.required">
+        <label class="control-label" for="comments">Doctor Comments</label>
+        <textarea class="form-control" 
+                  name="comments" 
+                  rows="5" 
+                  #comments="ngModel" 
+                  [(ngModel)]="request.Comments" 
+                  [disabled]="role !=='doctor' && request.Status != 'Requested'"
+                  (change)="statusTrigger()"
+                  placeholder="Enter a valid comments"
+                  [required]="request.MedicineName !== ''"
+                  maxlength="100"></textarea>
+        <span class="help-block" *ngIf="comments?.errors?.required">Doctor Comments is required</span>
+      </div>
+      <br />
+    </div>
+  </fieldset>
+</form>
+
+<div class="medicineTable" *ngIf="medicineTable">
+    <label class="control-label">Show Medicines</label>
+    <select class="form-control pagination" [(ngModel)]="pageSize" name="pageSize" disabled>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
+    <span class="searchFill">
+      <input type="text" class="form-control" [(ngModel)]="search" name="search" placeholder="Search for request" />
+    </span>
+  <br /> <br>
+  <table class="table table-bordered" *ngIf="medicineTable">
+    <thead>
+      <tr>
+        <th>Medicine Name</th>
+        <th>Price</th>
+        <th>Expiry Date</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let med of medicineList | searchFilter:search | limitRange:pageSize">
+        <td (click)="captureMedicine(med.MedicineName)">{{med.MedicineName}}</td>
+        <td>{{med.Price}}</td>
+        <td>{{med.ExpiryDate | date}}</td>
+        <td>{{med.Quantity}}</td>
+      </tr>
+      <tr *ngIf="!medicineList">
+        <td colspan="3" style="text-align:center">Loading Patient Details</td>
+      </tr>
+      <tr *ngIf="medicineList == null || medicineList.length == 0">
+        <td colspan="3" style="text-align:center">No records to display..!!</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

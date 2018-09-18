@@ -1,0 +1,53 @@
+
+
+.getclass a, .headercls a {
+    display: block;
+    font-size: large;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e5dddd;
+    text-decoration: none !important;
+}
+
+.applicaion {
+    display: block;
+    font-size: x-large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    text-decoration: none !important;
+}
+
+footer {
+    float: right;
+    padding: 20px;
+    position: relative;
+}
+
+.getclass {
+    float: right;
+    position: relative;
+}
+
+li {
+    padding: 5px;
+}
+
+.headercls{
+    float: left;
+    position: relative;
+}
+
+.conttent {
+    box-sizing: border-box;
+    zoom: 1;
+    max-width: calc(1600px + 10%);
+    height: auto;
+    margin: 0 auto 0 auto;
+    position: relative;
+    padding-top: 70px;
+}
+
+*:before, *:after {
+    box-sizing: inherit;
+    display: block;
+}

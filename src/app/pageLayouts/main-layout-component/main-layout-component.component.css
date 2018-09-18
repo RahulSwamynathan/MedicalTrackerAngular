@@ -1,0 +1,107 @@
+.mainPage {
+    width: inherit;
+    height: 950px;
+    position: relative;
+}
+
+.page-content {
+    max-width: calc(575px + 29%);
+    height: 733px;
+    float: left;
+    position: relative;
+    padding-left: 30px;
+    margin-top: 65px;
+}
+
+.navagior {
+    float: left;
+    width: 225px;
+    height: 965px;
+    background-color: #00387d;
+    position: relative;
+    padding-top:60px;
+}
+
+    .navagior a {
+        width: auto;
+        display: block;
+        height: 50px;
+        padding-left: 35px;
+        padding-top: 10px;
+        font-size: large;
+        font-style: italic;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #e5dddd;
+        text-decoration: none !important;
+        border-bottom: 2px solid #d8d1d1;
+        border-bottom-right-radius: 13px;
+        border-bottom-left-radius: 13px;
+    }
+
+        .navagior a:hover {
+            background-color: #d8d1d1;
+            color: #000;
+            border-bottom-right-radius: 13px;
+            border-bottom-left-radius: 13px;
+        }
+
+    .navagior .active {
+        background-color: #d8d1d1;
+        color: #000;
+        border-bottom-right-radius: 13px;
+        border-bottom-left-radius: 13px;
+    }
+
+
+.getclass a, .headercls a {
+    display: block;
+    font-size: large;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e5dddd;
+    text-decoration: none !important;
+}
+
+.applicaion {
+    display: block;
+    font-size: x-large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    text-decoration: none !important;
+}
+
+footer {
+    float: right;
+    padding: 20px;
+    position: relative;
+}
+
+.getclass {
+    float: right;
+    position: relative;
+}
+li {
+    padding: 5px;
+}
+
+.headercls{
+    float: left;
+    position: relative;
+}
+
+.conttent {
+    height: auto;
+    margin: 0 auto 0 auto;
+    position: relative;
+}
+
+*:before, *:after {
+    box-sizing: inherit;
+    display: block;
+}
+
+@media(max-width : 1200px){
+    .conttent {
+        width: 1600px
+    }
+}

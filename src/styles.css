@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.actions-default{
+    text-align: center;
+}
+
+.actions-default a{
+    color: #33a3f3e0;
+    float: left;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.actions-default a span{
+    padding-left: 22px;
+}
+
+.paginationFoot{
+    position: relative;
+}
+
+.hovrBtn:enabled:hover {
+    background-color: #00387d;
+    color: #edeaea;
+}
+
+.arrow-up {
+    width:0;
+    height:0;
+    border-left:5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom:10px solid black;
+    display: inline-block;
+}
+
+.arrow-down {
+    width:0;
+    height:0;
+    border-left:5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top:10px solid black;
+    display:inline-block;
+}
+
+label span{
+    color: red;
+    font-size:22px;
+    display: inline;
+}
+
+

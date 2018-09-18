@@ -1,0 +1,50 @@
+<div style="width:875px">
+  <h4>
+    <b>
+      <i>Medical Details</i>
+    </b>
+  </h4>
+  <hr />
+  <div>
+    <label class="control-label">Show request</label>
+    <select class="form-control pagination" [(ngModel)]="pageSize">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
+    <span>
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search for request" />
+    </span>
+  </div>
+  <br />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Medicine Name</th>
+        <th>Price</th>
+        <th>Delivery</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let detail of patientMedicalDetail | searchFilter:search | limitRange:pageSize">
+        <td>{{detail.PatientName | changetotitlecase}}</td>
+        <td>{{detail.MedicineName | changetotitlecase}}</td>
+        <td>{{detail.MedicinePrice}}</td>
+        <td>{{detail.Delivery}}</td>
+        <td class="actions-default">
+            <a title="Edit Request" routerLink="/requestLayout/request/{{detail.PatientId}}">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+        </td>
+      </tr>
+      <tr *ngIf="!patientMedicalDetail">
+        <td colspan="5" style="text-align:center">Loading Patient Details</td>
+      </tr>
+      <tr *ngIf="patientMedicalDetail == null || patientMedicalDetail.length == 0">
+        <td colspan="5" style="text-align:center">No records to display..!!</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

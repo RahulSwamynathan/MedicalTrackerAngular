@@ -1,0 +1,37 @@
+<form #formControl="ngForm" (ngSubmit)="forgetPassword(formControl, emailDetails)">
+    <div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modelclass">
+                    <h4 class="modal-title">Forget Password</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                            <alert type="success" [dismissible]="dismissible" *ngIf="showAlertSuccess">
+                               <strong>Message:</strong> Email has been send to your registered email. Click <strong><a class="button undoAlert" routerLink="/Layout/login">here</a>
+                                </strong>to login.
+                            </alert>
+                            <alert type="danger" [dismissible]="dismissible" *ngIf="showAlertFail">
+                                    <strong>Message:</strong>  Your email id is not available. Try again or Click <strong><a class="button undoAlert" routerLink="/Layout/login">here</a>
+                                    </strong> to login.
+                                </alert>
+                        <div class="form-group" [class.has-error]="email.touched && email.invalid">
+                            <label class="control-label col-md-4" style="padding-top:0px">
+                                <span>*</span> Email Address</label>
+                            <div class="col-md-6">
+                                <input type="email" required appEmailvalidator class="form-control" name="email" #email="ngModel" [(ngModel)]="emailDetails.toAddress"
+                                    (change)="emailValidation(formControl, emailDetails.toAddress)" />
+                                <span class="help-block" *ngIf="email.touched && email?.errors?.required">Email is required</span>
+                                <span class="help-block" *ngIf="email.touched && email?.errors?.invalidEmail && !email.errors?.required">Please enter a valid email</span>
+                                <span class="help-block" *ngIf="email.touched && email?.errors?.validation && !email.errors?.invalidEmail">Email id is not available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <input type="submit" value="Submit" class="btn btn-default hovrBtn"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

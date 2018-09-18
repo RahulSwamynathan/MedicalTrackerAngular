@@ -1,0 +1,31 @@
+<ng-container>
+  <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#00387d">
+      <div class="container">
+        <div class="navbar-header headercls">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="register" routerLink="login">Medical Tracker</a>
+                </li>
+            </ul>
+        </div>
+          <div class="navbar-collapse collapse getclass">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a class="register" routerLink="register">Register</a>
+                    </li>
+                    <li>
+                        <a class="register" routerLink="login">Login</a>
+                    </li>
+                </ul>
+            </div>
+      </div>
+  </div>
+
+  <div class="container body-content conttent">
+      <router-outlet></router-outlet>
+      <hr />
+      <footer>
+          <p>&copy; Medical-Tracker Application</p>
+      </footer>
+  </div>
+</ng-container>

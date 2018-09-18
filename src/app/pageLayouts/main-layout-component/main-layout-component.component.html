@@ -1,0 +1,45 @@
+<ng-container>
+  <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#00387d">
+      <div class="container">
+            <div class="navbar-header headercls">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a class="register">Medical Tracker</a>
+                    </li>
+                </ul>
+            </div>
+          <div class="navbar-collapse collapse getclass">
+              <ul class="nav navbar-nav">
+                  <li>
+                      <a class="register">{{user}}</a>
+                  </li>
+                  <li>
+                      <a class="register" routerLink="/logout">Logout</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+  <div class="container conttent">
+      <div class="mainPage">
+          <div class="navagior" *ngIf="role">
+              <a *ngIf="role=='patient'" routerLink="request" routerLinkActive="active">New Request</a>
+              <a *ngIf="role != 'pharmacist'" routerLink="requested" routerLinkActive="active">Requested</a>
+              <a *ngIf="role == 'pharmacist'" routerLink="medicine" routerLinkActive="active">Medicine Request</a>
+              <a *ngIf="role !='doctor'" routerLink="approvedDoctor" routerLinkActive="active">Approved by Doctor</a>
+              <a *ngIf="role != 'pharmacist'" routerLink="approvedRequest" routerLinkActive="active">Approved Request</a>
+              <a *ngIf="role != 'pharmacist'" routerLink="allRequest" routerLinkActive="active">All Request</a>
+              <a *ngIf="role=='patient'" routerLink="medicineDetails" routerLinkActive="active">Medical Details</a>
+              <a *ngIf="role=='pharmacist'" routerLink="allMedicine" routerLinkActive="active">All Medicine</a>
+          </div>
+          <div class="page-content clearfix">
+              <router-outlet></router-outlet>
+          </div>
+      </div>
+     <hr />
+      <footer>
+          <p>&copy; Medical-Tracker Application</p>
+      </footer>
+  </div>
+</ng-container>

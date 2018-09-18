@@ -1,0 +1,40 @@
+.pagination {
+    display: inline;
+    width:inherit;
+    margin: inherit;
+}
+
+span{
+    float:right
+}
+
+button {
+    margin-left: 10px;
+}
+
+.btn-circle {
+    width: 25px;
+    height: 25px;
+    padding: 4px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+.fa-remove:before, .fa-close:before, .fa-times:before {
+    content: "x";
+    font-size: 15px;
+}
+
+.hovrBtn:enabled:hover {
+    background-color: #00387d;
+    color: #edeaea;
+}

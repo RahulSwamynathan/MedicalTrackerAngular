@@ -1,0 +1,20 @@
+h4 {
+    font-weight:bold;
+}
+
+.modelclass{
+    background-color: #00387d;
+    color: #c5c5c5;
+}
+
+.undoAlert{
+    text-decoration: none !important;
+    color: inherit;
+    cursor: pointer;
+}
+.modal-content{
+    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,0);
+    -moz-box-shadow: 0 5px 15px rgba(0,0,0,0);
+    -o-box-shadow: 0 5px 15px rgba(0,0,0,0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0);
+}

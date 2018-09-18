@@ -1,0 +1,49 @@
+<h4>
+  <b>
+    <i>New Medicine</i>
+  </b>
+</h4>
+<hr />
+<form #formControl="ngForm" class="requestForm" (ngSubmit)="submitDetails(medicineRequest)">
+  <fieldset>
+    <div class="request-Form">
+      <div class="form-group" [class.has-error]="medicineName.invalid && medicineName.touched">
+        <label class="control-label" for="medicineName">Medicine Name</label>
+        <input required type="text" class="form-control" name="medicineName" #medicineName="ngModel" [(ngModel)]="medicineRequest.MedicineName"
+          placeholder="Medicine Name" maxlength="25">
+        <span class="help-block" *ngIf="medicineName.invalid && medicineName.touched">Medicine Name is required</span>
+      </div>
+
+      <div class="form-group has-feedback" [class.has-error]="expiryDate.invalid && expiryDate.touched">
+        <label class="control-label" for="expiryDate">Expiry Date</label>
+        <input type="text" class="form-control" name="expiryDate" #expiryDate="ngModel" [(ngModel)]="medicineRequest.ExpiryDate" bsDatepicker
+          [bsConfig]="datePickerConfig" triggers="click" placement="bottom" placeholder="Expiry Date" required/>
+        <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+        <span class="help-block" *ngIf="expiryDate.invalid && expiryDate.touched">Expiry Date is required</span>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-12" *ngIf="formControl.enabled">
+          <input type="submit" class="btn btn-primary" [disabled]="formControl.invalid" value="Submit">
+          <input type="button" class="btn btn-primary" (click)="cancelForm(formControl)" value="Cancel">
+        </div>
+      </div>
+    </div>
+
+    <div class="request-Form2">
+      <div class="form-group" [class.has-error]="price.invalid && price.touched">
+        <label class="control-label" for="price">Price</label>
+        <input type="text" class="form-control" name="price" [pattern]="numberPattern" #price="ngModel" [(ngModel)]="medicineRequest.Price"
+          placeholder="Price" maxlength="5" required />
+        <span class="help-block" *ngIf="price.errors?.pattern && price.touched">Price should be a number</span>
+      </div>
+
+      <div class="form-group" [class.has-error]="quantity.invalid && quantity.touched">
+        <label class="control-label" for="quantity">Quantity</label>
+        <input type="text" class="form-control" name="quantity" [pattern]="numberPattern" #quantity="ngModel" [(ngModel)]="medicineRequest.Quantity"
+          placeholder="Quantity" maxlength="5" required />
+        <span class="help-block" *ngIf="quantity.errors?.pattern && quantity.touched">Quantity should be a number</span>
+      </div>
+    </div>
+  </fieldset>
+</form>

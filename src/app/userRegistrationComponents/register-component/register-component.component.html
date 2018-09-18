@@ -1,0 +1,77 @@
+<form #formControl="ngForm" (ngSubmit)="register(formControl, registerUser)">
+    <div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modelclass">
+                    <h4 class="modal-title">Registration</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" [class.has-error]="userControl.invalid && userControl.touched">
+
+                            <label class="control-label col-md-4" style="padding-top:0px">
+                                <span>*</span> User Name</label>
+                            <div class="col-md-6">
+                                <input type="text" required name="userName" class="form-control" #userControl="ngModel" [(ngModel)]="registerUser.UserName" />
+                                <span class="help-block" *ngIf="userControl.invalid && userControl.touched">User Name is required</span>
+                            </div>
+                        </div>
+
+                        <div ngModelGroup="passwordGrp" [class.has-error]="confrimPassControl.touched && confrimPassControl?.errors?.compare && !confrimPassControl.errors?.required">
+                            <div class="form-group" [class.has-error]="passControl.invalid && passControl.touched">
+                                <label class="control-label col-md-4" style="padding-top:0px">
+                                    <span>*</span> Password</label>
+                                <div class="col-md-6">
+                                    <input type="password" required name="password" (input)="confrimPassControl.control.updateValueAndValidity()" class="form-control"
+                                        #passControl="ngModel" [(ngModel)]="registerUser.Password" />
+                                    <span class="help-block" *ngIf="passControl.invalid && passControl.touched">Password is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" [class.has-error]="(confrimPassControl?.errors?.required) || (confrimPassControl.invalid && confrimPassControl.touched)">
+                                <label class="control-label col-md-4">Confirm Password</label>
+                                <div class="col-md-6">
+                                    <input type="password" [required]="registerUser.Password !== '' && registerUser.Password !== null" appCompareValidator="password"
+                                        name="confirmPassword" class="form-control" #confrimPassControl="ngModel" [(ngModel)]="registerUser.ConfirmPassword" />
+                                    <span class="help-block" *ngIf="confrimPassControl?.errors?.required">Confirm password is mandatory</span>
+                                    <span class="help-block" *ngIf="confrimPassControl.touched && confrimPassControl?.errors?.compare && passControl.touched && !confrimPassControl.errors?.required">Confirm password should match the password</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" [class.has-error]="emailControl.invalid && emailControl.touched">
+                            <label class="control-label col-md-4" style="padding-top:0px">
+                                <span>*</span> Email</label>
+                            <div class="col-md-6">
+                                <input type="email" required appEmailvalidator name="emailAddress" class="form-control" #emailControl="ngModel" [(ngModel)]="registerUser.Email" 
+                                (change)="emailValidation(formControl, registerUser.Email)"/>
+                                <span class="help-block" *ngIf="emailControl.touched && emailControl?.errors?.required">Email is required</span>
+                                <span class="help-block" *ngIf="emailControl.touched && emailControl?.errors?.invalidEmail && !emailControl.errors?.required">Please enter a valid email</span>
+                                <span class="help-block" *ngIf="emailControl.touched && emailControl?.errors?.validation && !emailControl.errors?.invalidEmail">Email id is already available</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" [class.has-error]="roleControl.invalid && roleControl.touched">
+                            <label class="control-label col-md-4" style="padding-top:0px">
+                                <span>*</span> Roles</label>
+                            <div class="col-md-6">
+                                <select class="form-control" required name="roleSelection" #roleControl="ngModel" [(ngModel)]="registerUser.Roles">
+                                    <option [ngValue]="null">Select</option>
+                                    <option value="doctor">Doctor</option>
+                                    <option value="patient">Patient</option>
+                                    <option value="pharmacist">Pharmacist</option>
+                                </select>
+                                <span class="help-block" *ngIf="roleControl.invalid && roleControl.touched">Role selection is mandatory</span>
+                            </div>
+                        </div>
+                        <span style="color:red; padding-left:20%; text-align:center">{{valid}}</span>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <input type="submit" value="Register" class="btn btn-default hovrBtn" />
+                    <input type="button" value="Cancel" class="btn btn-default hovrBtn" (click)="cancelAction(formControl)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

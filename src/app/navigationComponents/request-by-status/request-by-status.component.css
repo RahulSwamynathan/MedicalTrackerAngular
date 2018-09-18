@@ -1,0 +1,58 @@
+.pagination {
+    display: inline;
+    width:inherit;
+    margin: inherit;
+}
+
+.set-width{
+    width: 850px;
+    table-layout: fixed;
+}
+
+.undoAlert{
+    text-decoration: none !important;
+    color: inherit;
+    cursor: pointer;
+}
+
+th{
+    text-align: center;
+}
+span{
+    float:right
+}
+
+button {
+    margin-left: 5px;
+}
+
+.btn-circle {
+    width: 22px;
+    height: 22px;
+    padding: 0px 0px;
+    border-radius: 16px;
+    text-align: center;
+    margin-left: 0px;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+.fa-remove:before, .fa-close:before, .fa-times:before {
+    content: "x";
+    font-size: 15px;
+}
+
+.hovrBtn.active{
+    background-color: #00387d;
+    color: #edeaea; 
+}
+
+tbody td {
+    word-wrap:break-word;
+}
+
